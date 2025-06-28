@@ -883,10 +883,10 @@
             <div class="settings-header"><h2 class="settings-title">Clock Settings</h2><button class="close-settings" id="closeSettings"><i class="fas fa-times"></i></button></div>
             <div class="settings-group">
                 <h3 class="group-title">Display Settings</h3>
-                <div class="setting-item"><div class="setting-label">Show Seconds</div><div class="setting-control"><div class="checkbox-container"><input type="checkbox" id="showSeconds"><label class="checkbox-label" for="showSeconds"></label></div></div></div>
+                <div class="setting-item"><div class="setting-label">Show Seconds</div><div class="setting-control"><div class="checkbox-container"><input type="checkbox" id="showSeconds" checked><label class="checkbox-label" for="showSeconds"></label></div></div></div>
                 <div class="setting-item"><div class="setting-label">Show Islamic Calendar</div><div class="setting-control"><div class="checkbox-container"><input type="checkbox" id="showIslamicDate" checked><label class="checkbox-label" for="showIslamicDate"></label></div></div></div>
-                <div class="setting-item"><div class="setting-label">Show Loading Text</div><div class="setting-control"><div class="checkbox-container"><input type="checkbox" id="showLoading"><label class="checkbox-label" for="showLoading"></label></div></div></div>
-                <div class="setting-item"><div class="setting-label">Show Sources in Footer</div><div class="setting-control"><div class="checkbox-container"><input type="checkbox" id="showSources"><label class="checkbox-label" for="showSources"></label></div></div></div>
+                <div class="setting-item"><div class="setting-label">Show Loading Text</div><div class="setting-control"><div class="checkbox-container"><input type="checkbox" id="showLoading" checked><label class="checkbox-label" for="showLoading"></label></div></div></div>
+                <div class="setting-item"><div class="setting-label">Show Sources in Footer</div><div class="setting-control"><div class="checkbox-container"><input type="checkbox" id="showSources" checked><label class="checkbox-label" for="showSources"></label></div></div></div>
                 <div class="setting-item"><div class="setting-label">Time Format</div><div class="setting-control"><select id="timeFormat"><option value="24h">24-Hour Format</option><option value="12h" selected>12-Hour Format</option></select></div></div>
                 <div class="setting-item"><div class="setting-label">Auto-Hide Controls</div><div class="setting-control"><div class="checkbox-container"><input type="checkbox" id="autoHideControls" checked><label class="checkbox-label" for="autoHideControls"></label></div></div></div>
                 <div class="setting-item"><div class="setting-label">Layout Mode</div><div class="setting-control"><select id="layoutMode"><option value="auto">Auto</option><option value="landscape">Landscape</option><option value="portrait">Portrait</option></select></div></div>
@@ -1089,13 +1089,11 @@
                 if (localStorage.getItem('bgInterval') === null) bgInterval.value = '600';
                 else if (localStorage.getItem('bgInterval')) bgInterval.value = localStorage.getItem('bgInterval');
 
-                // MODIFIED: Changed defaults for showSeconds, showLoading, and showSources
-                showSeconds.checked = localStorage.getItem('showSeconds') === 'true' ? true : false;
-                showIslamicDate.checked = localStorage.getItem('showIslamicDate') === 'true' ? true : false;
-                showLoading.checked = localStorage.getItem('showLoading') === 'true' ? true : false;
-                showSources.checked = localStorage.getItem('showSources') === 'true' ? true : false;
-                footerEl.style.display = showSources.checked ? 'block' : 'none';
-
+                // ... (rest of the settings initialization) ...
+                if (localStorage.getItem('showSeconds') !== null) showSeconds.checked = localStorage.getItem('showSeconds') === 'true';
+                if (localStorage.getItem('showIslamicDate') !== null) showIslamicDate.checked = localStorage.getItem('showIslamicDate') === 'true';
+                if (localStorage.getItem('showLoading') !== null) showLoading.checked = localStorage.getItem('showLoading') === 'true';
+                if (localStorage.getItem('showSources') !== null) { showSources.checked = localStorage.getItem('showSources') === 'true'; footerEl.style.display = showSources.checked ? 'block' : 'none'; }
                 if (localStorage.getItem('autoHideControls') !== null) autoHideControls.checked = localStorage.getItem('autoHideControls') === 'true';
                 if (localStorage.getItem('layoutMode')) { layoutMode.value = localStorage.getItem('layoutMode'); applyLayoutMode(); }
                 if (localStorage.getItem('lightGlassIntensity')) lightGlassIntensity.value = localStorage.getItem('lightGlassIntensity');
