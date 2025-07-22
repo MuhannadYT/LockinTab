@@ -3,10 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enhanced Nature Clock</title>
+    <title>Nature Clock</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="MyWebSite" />
+    <link rel="manifest" href="site.webmanifest" />
     <style>
+        :root {
+            --arabic-font: 'Amiri', serif;
+        }
+
+	
         * {
             margin: 0;
             padding: 0;
@@ -150,10 +164,13 @@
         }
 
         .arabic-text {
-            font-size: 1.4rem;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin-bottom: 10px;
-            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.8rem; /* Slightly larger for better readability */
+            font-family: var(--arabic-font);
+            line-height: 1.8; /* More spacing between lines */
+            text-rendering: optimizeLegibility; /* Better diacritic handling */
+            font-feature-settings: "calt" 1; /* Contextual alternates */
+            margin-bottom: 15px;
+            color: rgba(255, 255, 255, 0.95); /* Better contrast */
         }
 
         .content-ref {
@@ -212,7 +229,7 @@
         .timer-buttons {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 10px;
             margin: 20px 0;
             flex-wrap: wrap;
         }
@@ -277,9 +294,10 @@
         .controls {
             display: flex;
             justify-content: center;
-            gap: 25px;
+            gap: 15px;
             margin-top: 20px;
             transition: opacity 0.5s ease;
+            position: relative; /* Added */
         }
 
         .control-btn {
@@ -316,6 +334,76 @@
         .control-btn:active {
             transform: translateY(1px);
         }
+
+        /* NEW: styles for the plus button in control area */
+        .controls .timer-toggle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+        }
+
+        .controls .timer-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .controls .timer-toggle.expanded {
+            width: 180px;
+            border-radius: 50px;
+        }
+
+        .controls .timer-toggle .custom-timer-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .controls .timer-toggle.expanded .custom-timer-input {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .controls .timer-toggle .custom-timer-input input {
+            background: transparent;
+            border: none;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            color: white;
+            font-size: 1.2rem;
+            padding: 0 20px;
+            outline: none;
+        }
+
+        /* BUG FIX: Hide plus icon when expanded */
+        .controls .timer-toggle i {
+            transition: opacity 0.2s ease;
+        }
+
+        .controls .timer-toggle.expanded i {
+            opacity: 0;
+            pointer-events: none;
+        }
+
 
         /* Top control buttons */
         .top-controls {
@@ -862,7 +950,92 @@
         .glass-container.auto-layout .timer-section {
             margin: clamp(15px, 2vmin, 30px) 0 0 0; /* Remove bottom margin */
         }
+        .arabic-text {
+          font-size: 1.8rem;
+          /* Swap in whichever you chose above: */
+          font-family: var(--arabic-font);
+          /* or: font-family: var(--arabic-font); */
+          line-height: 1.8;
+          text-rendering: optimizeLegibility;
+          font-feature-settings: "calt" 1;
+          margin-bottom: 15px;
+          /* Use a solid color—no reds: */
+          color: #ffffff; /* or rgba(255,255,255,0.95) */
+        }
+
+        /* Add new styles for combined timer button */
+        .timer-toggle {
+            position: relative;
+            width: 80px;
+            transition: width 0.3s ease;
+        }
         
+        .timer-toggle.expanded {
+            width: 180px;
+        }
+        
+        .custom-timer-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        
+        .timer-toggle.expanded .custom-timer-input {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .custom-timer-input input {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50px;
+            padding: 14px 15px;
+            color: white;
+            width: 100%;
+            font-size: 1rem;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+        
+        .custom-timer-input input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Stopwatch styles */
+        .stopwatch-display {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: white;
+            margin: 30px 0;
+            min-height: 70px;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .milliseconds {
+            font-size: 1.5rem;
+            vertical-align: baseline;
+        }
+        
+        /* DEPRECATED STYLE - HIDE OLD BUTTON */
+        .timer-btn#stopwatchToggleBtn {
+            display: none; 
+        }
+
+        /* NEW: Active state for stopwatch button */
+        .control-btn.active {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        body.dark-mode .control-btn.active {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
     </style>
 </head>
 <body>
@@ -874,7 +1047,32 @@
         <div class="top-controls" id="topControls"><button class="top-btn" id="muteBtn"><i class="fas fa-volume-up"></i></button><button class="top-btn" id="darkModeBtn"><i class="fas fa-moon"></i></button><button class="top-btn" id="settingsBtn"><i class="fas fa-cog"></i></button></div>
         <div class="header"><h1 class="title">Nature Clock</h1><div class="subtitle" id="subtitle"></div></div>
         <div class="clock-container"><div class="glass"><div class="clock" id="clock"></div><div class="date" id="date"></div><div class="islamic-date" id="islamicDate"></div></div></div>
-        <div class="timer-section"><div class="glass"><div class="timer-display" id="timerDisplay">Set a timer</div><div class="timer-buttons"><button class="timer-btn" data-minutes="5">5 Min</button><button class="timer-btn" data-minutes="10">10 Min</button><button class="timer-btn" data-minutes="15">15 Min</button><button class="timer-btn" data-minutes="30">30 Min</button></div><div class="controls" id="timerControls"><button class="control-btn" id="startBtn"><i class="fas fa-play"></i></button><button class="control-btn" id="pauseBtn"><i class="fas fa-pause"></i></button><button class="control-btn" id="resetBtn"><i class="fas fa-redo"></i></button></div></div></div>
+        <div class="timer-section">
+            <div class="glass">
+                <div class="timer-display" id="timerDisplay">Set a timer</div>
+                <div class="stopwatch-display" id="stopwatchDisplay" style="display: none;">00:00:00</div>
+                <div class="timer-buttons">
+                    <button class="timer-btn" data-minutes="5">5 Min</button>
+                    <button class="timer-btn" data-minutes="10">10 Min</button>
+                    <button class="timer-btn" data-minutes="15">15 Min</button>
+                    <button class="timer-btn" data-minutes="30">30 Min</button>
+                    <button class="timer-btn" id="stopwatchToggleBtn" style="display: none;">
+                        <i class="fas fa-stopwatch"></i>
+                    </button>
+                </div>
+                <div class="controls" id="timerControls">
+                    <div class="timer-toggle" id="customTimerContainer">
+                        <div class="custom-timer-input">
+                            <input type="number" id="customMinutes" min="1" placeholder="Mins" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                        </div>
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <button class="control-btn" id="toggleTimerBtn"><i class="fas fa-play"></i></button>
+                    <button class="control-btn" id="resetBtn"><i class="fas fa-redo"></i></button>
+                    <button class="control-btn" id="stopwatchControlBtn"><i class="fas fa-stopwatch"></i></button>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="footer" id="footer">Backgrounds from r/EarthPorn, r/NaturePorn & r/LandscapePhotography</div>
     <div class="toast" id="toast"></div>
@@ -883,7 +1081,17 @@
             <div class="settings-header"><h2 class="settings-title">Clock Settings</h2><button class="close-settings" id="closeSettings"><i class="fas fa-times"></i></button></div>
             <div class="settings-group">
                 <h3 class="group-title">Display Settings</h3>
-                <div class="setting-item"><div class="setting-label">Show Seconds</div><div class="setting-control"><div class="checkbox-container"><input type="checkbox" id="showSeconds"><label class="checkbox-label" for="showSeconds"></label></div></div></div>
+                <div class="setting-item">
+                    <div class="setting-label">Arabic Font</div>
+                    <div class="setting-control">
+                        <select id="arabicFont">
+                            <option value="'Amiri', serif">Amiri (Traditional)</option>
+                            <option value="'Noto Naskh Arabic', serif">Noto Naskh (Modern)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="setting-item"><div class="setting-label">Show clock Seconds</div><div class="setting-control"><div class="checkbox-container"><input type="checkbox" id="showSeconds"><label class="checkbox-label" for="showSeconds"></label></div></div></div>
+                <div class="setting-item"><div class="setting-label">Show stopwatch milliseconds</div><div class="setting-control"><div class="checkbox-container"><input type="checkbox" id="showMilliseconds"><label class="checkbox-label" for="showMilliseconds"></label></div></div></div>
                 <div class="setting-item"><div class="setting-label">Show Islamic Calendar</div><div class="setting-control"><div class="checkbox-container"><input type="checkbox" id="showIslamicDate" checked><label class="checkbox-label" for="showIslamicDate"></label></div></div></div>
                 <div class="setting-item"><div class="setting-label">Show Loading Text</div><div class="setting-control"><div class="checkbox-container"><input type="checkbox" id="showLoading"><label class="checkbox-label" for="showLoading"></label></div></div></div>
                 <div class="setting-item"><div class="setting-label">Show Sources in Footer</div><div class="setting-control"><div class="checkbox-container"><input type="checkbox" id="showSources"><label class="checkbox-label" for="showSources"></label></div></div></div>
@@ -931,6 +1139,23 @@
             </div>
             <div class="settings-group">
                 <h3 class="group-title">Sound Settings</h3>
+                <div class="setting-item">
+                    <div class="setting-label">Chime Interval</div>
+                    <div class="setting-control">
+                        <select id="chimeIntervalSetting">
+                            <option value="60">Every hour</option>
+                            <option value="30">Every 30 minutes</option>
+                            <option value="15">Every 15 minutes</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="setting-item" id="customChimeIntervalContainer" style="display: none;">
+                    <div class="setting-label">Custom Minutes</div>
+                    <div class="setting-control">
+                        <input type="number" id="customChimeInterval" min="1" value="45">
+                    </div>
+                </div>
                 <div class="setting-item"><div class="setting-label">Hourly Chime Sound</div><div class="setting-control"><select id="chimeSound"><option value="chime1">Soft Chime</option><option value="chime2">Bell Chime</option><option value="chime3">Nature Sound</option><option value="chime4">Airplane Noise</option><option value="chime5">Water Drops</option><option value="custom">Custom</option></select><button class="test-sound-btn" id="testChimeBtn"><i class="fas fa-play"></i></button></div></div>
                 <div id="customChimeContainer" class="custom-file-container" style="display: none;"><label class="custom-file-label" for="customChime"><i class="fas fa-upload"></i> Upload Custom Chime</label><input type="file" id="customChime" accept="audio/*" style="display: none;"></div>
                 <div class="setting-item"><div class="setting-label">Alarm Sound</div><div class="setting-control"><select id="alarmSound"><option value="alarm1">Digital Beep</option><option value="alarm2">Gentle Alarm</option><option value="alarm3">Birds Chirping</option><option value="alarm4">Quran Recitation</option><option value="alarm5">Ocean Waves</option><option value="custom">Custom</option></select><button class="test-sound-btn" id="testAlarmBtn"><i class="fas fa-play"></i></button></div></div>
@@ -976,9 +1201,8 @@
             const muteBtn = document.getElementById('muteBtn');
             const darkModeBtn = document.getElementById('darkModeBtn');
             const timerDisplay = document.getElementById('timerDisplay');
-            const timerButtons = document.querySelectorAll('.timer-btn');
-            const startBtn = document.getElementById('startBtn');
-            const pauseBtn = document.getElementById('pauseBtn');
+            const timerButtons = document.querySelectorAll('.timer-btn[data-minutes]');
+            const toggleTimerBtn = document.getElementById('toggleTimerBtn');
             const resetBtn = document.getElementById('resetBtn');
             const toast = document.getElementById('toast');
             const subtitleEl = document.getElementById('subtitle');
@@ -1005,11 +1229,19 @@
             const sunriseTimeEl = document.getElementById('sunriseTime');
             const sunsetTimeEl = document.getElementById('sunsetTime');
             
+            // New Timer/Stopwatch Elements
+            const customTimerContainer = document.getElementById('customTimerContainer');
+            const customMinutesInput = document.getElementById('customMinutes');
+            const stopwatchDisplay = document.getElementById('stopwatchDisplay');
+            const stopwatchControlBtn = document.getElementById('stopwatchControlBtn'); // New button
+            
             // Settings elements
             const showSeconds = document.getElementById('showSeconds');
+            const showMilliseconds = document.getElementById('showMilliseconds');
             const showIslamicDate = document.getElementById('showIslamicDate');
             const showLoading = document.getElementById('showLoading');
             const showSources = document.getElementById('showSources');
+            const arabicFontSelect = document.getElementById('arabicFont');
             const timeFormat = document.getElementById('timeFormat');
             const autoHideControls = document.getElementById('autoHideControls');
             const layoutMode = document.getElementById('layoutMode');
@@ -1032,34 +1264,52 @@
             const alarmSound = document.getElementById('alarmSound');
             const customAlarmContainer = document.getElementById('customAlarmContainer');
             const customAlarm = document.getElementById('customAlarm');
+            const chimeIntervalSetting = document.getElementById('chimeIntervalSetting');
+            const customChimeIntervalContainer = document.getElementById('customChimeIntervalContainer');
+            const customChimeInterval = document.getElementById('customChimeInterval');
             
+            // State Variables
             let isMuted = false, isDarkMode = true, timerInterval = null, timerDuration = 0, timerRemaining = 0, timerActive = false, lastChimeHour = -1, contentUpdateInterval = null, backgroundUpdateInterval = null, customChimeSound = null, customAlarmSound = null, activeSound = null, mouseIdleTimer = null, isMouseIdle = false;
             let lightSubreddits = ['EarthPorn', 'NaturePorn', 'LandscapePhotography'];
             let darkSubreddits = ['nightphotography', 'spaceporn', 'LandscapeAstro'];
             
+            // New State Variables
+            let stopwatchRunning = false, stopwatchStartTime = 0, stopwatchElapsed = 0, stopwatchInterval = null, currentMode = 'timer', chimeInterval = 60;
+            
+
             const quranVerses = [
-                { en: "Allah does not burden a soul beyond that it can bear.", ar: "لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا", ref: "Quran 2:286", link: "https://quran.com/2/286" },
-                { en: "And He is with you wherever you are.", ar: "وَهُوَ مَعَكُمْ أَيْنَ مَا كُنْتُمْ", ref: "Quran 57:4", link: "https://quran.com/57/4" },
-                { en: "Indeed, with hardship comes ease.", ar: "فَإِنَّ مَعَ الْعُsْرِ يُsْرًا", ref: "Quran 94:5", link: "https://quran.com/94/5" }
+                { en: "Allah does not burden a soul beyond that it can bear.", ar: "لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا", ref: "2:286", link: "https://quran.com/2/286", enSurah: "Al-Baqarah", arSurah: "البقرة" },
+                { en: "And He is with you wherever you are.", ar: "وَهُوَ مَعَكُمْ أَيْنَ مَا كُنْتُمْ", ref: "57:4", link: "https://quran.com/57/4", enSurah: "Al-Hadid", arSurah: "الحديد" },
+                { en: "Indeed, with hardship comes ease.", ar: "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا", ref: "94:5", link: "https://quran.com/94/5", enSurah: "Ash-Sharh", arSurah: "الشرح" }
             ];
             const hadiths = [
-                { en: "The best among you are those who have the best manners and character.", ar: "خِيَارُكُمْ أَحَاسِنُكُمْ أَخْلَاقًا", ref: "Sahih Bukhari 3559", link: "https://sunnah.com/bukhari:3559" },
-                { en: "Do not be angry.", ar: "لَا تَغْضَبْ", ref: "Sahih Bukhari 6116", link: "https://sunnah.com/bukhari:6116" },
-                { en: "The strong person is not the one who can wrestle, but the one who can control himself when angry.", ar: "لَيْسَ الشَّدِيدُ بِالصُّرَعَةِ، إِنَّمَا الشَّدِيدُ الَّذِي يَمْلِكُ نَفْسَهُ عِنْدَ الْغَضَبِ", ref: "Sahih Muslim 2609", link: "https://sunnah.com/muslim:2609" }
+                { 
+                    en: "The best among you are those who have the best manners and character.", 
+                    ar: "خِيَارُكُمْ أَحَاسِنُكُمْ أَخْلَاقًا", 
+                    enRef: "Sahih Bukhari 3559", 
+                    arRef: "صحيح البخاري 3559", // Added Arabic reference
+                    link: "https://sunnah.com/bukhari:3559" 
+                },
+                { 
+                    en: "Do not be angry.", 
+                    ar: "لَا تَغْضَبْ", 
+                    enRef: "Sahih Bukhari 6116", 
+                    arRef: "صحيح البخاري 6116", // Added Arabic reference
+                    link: "https://sunnah.com/bukhari:6116" 
+                },
+                { 
+                    en: "The strong person is not the one who can wrestle, but the one who can control himself when angry.", 
+                    ar: "لَيْسَ الشَّدِيدُ بِالصُّرَعَةِ، إِنَّمَا الشَّدِيدُ الَّذِي يَمْلِكُ نَفْسَهُ عِنْدَ الْغَضَبِ", 
+                    enRef: "Sahih Muslim 2609", 
+                    arRef: "صحيح مسلم 2609", // Added Arabic reference
+                    link: "https://sunnah.com/muslim:2609" 
+                }
             ];
 
-            // Fixed Islamic date formatting
             function getIslamicDate(date) {
                 try {
-                    const formatter = new Intl.DateTimeFormat('en-u-ca-islamic', {
-                        day: 'numeric',
-                        month: 'long',
-                        year: 'numeric'
-                    });
-                    
-                    // The formatter often includes " AH", this prevents duplication if it's added elsewhere
-                    const formattedDate = formatter.format(date);
-                    return formattedDate.replace(' AH', '') + ' AH'; // Ensures 'AH' is present exactly once
+                    const formatter = new Intl.DateTimeFormat('en-u-ca-islamic', { day: 'numeric', month: 'long', year: 'numeric' });
+                    return formatter.format(date).replace(' AH', '') + ' AH';
                 } catch (error) {
                     console.error('Error formatting Islamic date:', error);
                     return "Islamic date unavailable";
@@ -1067,36 +1317,23 @@
             }
             
             function initSettings() {
-                // Set defaults for new settings
-                if (localStorage.getItem('themeMode') === null) themeMode.value = 'auto';
-                else if (localStorage.getItem('themeMode')) themeMode.value = localStorage.getItem('themeMode');
-                
-                if (localStorage.getItem('autoLocationMode') === null) autoLocationMode.value = 'ip';
-                else if (localStorage.getItem('autoLocationMode')) autoLocationMode.value = localStorage.getItem('autoLocationMode');
-                
-                if (localStorage.getItem('timeFormat') === null) timeFormat.value = '12h';
-                else if (localStorage.getItem('timeFormat')) timeFormat.value = localStorage.getItem('timeFormat');
-                
-                if (localStorage.getItem('subtitleContent') === null) subtitleContent.value = 'random';
-                else if (localStorage.getItem('subtitleContent')) subtitleContent.value = localStorage.getItem('subtitleContent');
-                
-                if (localStorage.getItem('languageDisplay') === null) languageDisplay.value = 'both';
-                else if (localStorage.getItem('languageDisplay')) languageDisplay.value = localStorage.getItem('languageDisplay');
-                
-                if (localStorage.getItem('contentInterval') === null) contentInterval.value = '300';
-                else if (localStorage.getItem('contentInterval')) contentInterval.value = localStorage.getItem('contentInterval');
-                
-                if (localStorage.getItem('bgInterval') === null) bgInterval.value = '600';
-                else if (localStorage.getItem('bgInterval')) bgInterval.value = localStorage.getItem('bgInterval');
-
-                // MODIFIED: Logic to handle default checkbox states
+                if (localStorage.getItem('themeMode') === null) themeMode.value = 'auto'; else if (localStorage.getItem('themeMode')) themeMode.value = localStorage.getItem('themeMode');
+                if (localStorage.getItem('autoLocationMode') === null) autoLocationMode.value = 'ip'; else if (localStorage.getItem('autoLocationMode')) autoLocationMode.value = localStorage.getItem('autoLocationMode');
+                if (localStorage.getItem('timeFormat') === null) timeFormat.value = '12h'; else if (localStorage.getItem('timeFormat')) timeFormat.value = localStorage.getItem('timeFormat');
+                if (localStorage.getItem('subtitleContent') === null) subtitleContent.value = 'random'; else if (localStorage.getItem('subtitleContent')) subtitleContent.value = localStorage.getItem('subtitleContent');
+                if (localStorage.getItem('languageDisplay') === null) languageDisplay.value = 'both'; else if (localStorage.getItem('languageDisplay')) languageDisplay.value = localStorage.getItem('languageDisplay');
+                if (localStorage.getItem('contentInterval') === null) contentInterval.value = '300'; else if (localStorage.getItem('contentInterval')) contentInterval.value = localStorage.getItem('contentInterval');
+                if (localStorage.getItem('bgInterval') === null) bgInterval.value = '600'; else if (localStorage.getItem('bgInterval')) bgInterval.value = localStorage.getItem('bgInterval');
                 showSeconds.checked = localStorage.getItem('showSeconds') === 'true';
-                // MODIFIED: Set Islamic Calendar to be on by default
+                showMilliseconds.checked = localStorage.getItem('showMilliseconds') === 'true';
                 showIslamicDate.checked = localStorage.getItem('showIslamicDate') !== 'false';
                 showLoading.checked = localStorage.getItem('showLoading') === 'true';
                 showSources.checked = localStorage.getItem('showSources') === 'true';
                 footerEl.style.display = showSources.checked ? 'block' : 'none';
-
+                const savedFont = localStorage.getItem('arabicFont') || "'Amiri', serif";
+                document.documentElement.style.setProperty('--arabic-font', savedFont);
+                arabicFontSelect.value = savedFont;
+                arabicFontSelect.addEventListener('change', e => { const newFont = e.target.value; document.documentElement.style.setProperty('--arabic-font', newFont); localStorage.setItem('arabicFont', newFont); if (typeof showToast === 'function') showToast(`Arabic font changed to ${arabicFontSelect.selectedOptions[0].text}`); });
                 if (localStorage.getItem('autoHideControls') !== null) autoHideControls.checked = localStorage.getItem('autoHideControls') === 'true';
                 if (localStorage.getItem('layoutMode')) { layoutMode.value = localStorage.getItem('layoutMode'); applyLayoutMode(); }
                 if (localStorage.getItem('lightGlassIntensity')) lightGlassIntensity.value = localStorage.getItem('lightGlassIntensity');
@@ -1110,6 +1347,16 @@
                 if (localStorage.getItem('lightSubreddits')) lightSubreddits = JSON.parse(localStorage.getItem('lightSubreddits'));
                 if (localStorage.getItem('darkSubreddits')) darkSubreddits = JSON.parse(localStorage.getItem('darkSubreddits'));
                 
+                // Init new chime settings
+                if (localStorage.getItem('chimeIntervalSetting')) {
+                    chimeIntervalSetting.value = localStorage.getItem('chimeIntervalSetting');
+                    chimeInterval = parseInt(localStorage.getItem('chimeInterval'));
+                    if (chimeIntervalSetting.value === 'custom') {
+                        customChimeIntervalContainer.style.display = 'flex';
+                        customChimeInterval.value = chimeInterval;
+                    }
+                }
+                
                 setThemeMode();
                 updateSubtitleContent(); updateSubredditLists(); toggleCustomBgInterval();
             }
@@ -1117,25 +1364,17 @@
             function saveSettingsToStorage() {
                 const settings = {
                     themeMode: themeMode.value, autoLocationMode: autoLocationMode.value,
-                    showSeconds: showSeconds.checked, showIslamicDate: showIslamicDate.checked, showLoading: showLoading.checked, showSources: showSources.checked, timeFormat: timeFormat.value, autoHideControls: autoHideControls.checked, layoutMode: layoutMode.value, lightGlassIntensity: lightGlassIntensity.value, darkGlassIntensity: darkGlassIntensity.value, blurIntensity: blurIntensity.value, subtitleContent: subtitleContent.value, languageDisplay: languageDisplay.value, contentInterval: contentInterval.value, bgInterval: bgInterval.value, customBgInterval: customBgInterval.value, imageTransition: imageTransition.value, autoStartTimer: autoStartTimer.checked, chimeSound: chimeSound.value, alarmSound: alarmSound.value, lightSubreddits, darkSubreddits
+                    showSeconds: showSeconds.checked, showMilliseconds: showMilliseconds.checked, showIslamicDate: showIslamicDate.checked, showLoading: showLoading.checked, showSources: showSources.checked, timeFormat: timeFormat.value, autoHideControls: autoHideControls.checked, layoutMode: layoutMode.value, lightGlassIntensity: lightGlassIntensity.value, darkGlassIntensity: darkGlassIntensity.value, blurIntensity: blurIntensity.value, subtitleContent: subtitleContent.value, languageDisplay: languageDisplay.value, contentInterval: contentInterval.value, bgInterval: bgInterval.value, customBgInterval: customBgInterval.value, imageTransition: imageTransition.value, autoStartTimer: autoStartTimer.checked, chimeSound: chimeSound.value, alarmSound: alarmSound.value, lightSubreddits, darkSubreddits,
+                    chimeInterval: chimeInterval, chimeIntervalSetting: chimeIntervalSetting.value
                 };
                 for (const key in settings) { localStorage.setItem(key, typeof settings[key] === 'object' ? JSON.stringify(settings[key]) : settings[key]); }
                 showToast("Settings saved successfully!");
             }
 
-            // MODIFIED: Enhanced layout scaling for auto mode
             function applyLayoutMode() {
                 const mode = layoutMode.value;
                 glassContainer.classList.toggle('auto-layout', mode === 'auto');
-                
-                if (mode === 'auto') {
-                    // When auto is selected, clear inline style so the CSS class can take over.
-                    glassContainer.style.maxWidth = '';
-                } else if (mode === 'landscape') {
-                    glassContainer.style.maxWidth = '800px';
-                } else if (mode === 'portrait') {
-                    glassContainer.style.maxWidth = '550px';
-                }
+                if (mode === 'auto') { glassContainer.style.maxWidth = ''; } else if (mode === 'landscape') { glassContainer.style.maxWidth = '800px'; } else if (mode === 'portrait') { glassContainer.style.maxWidth = '550px'; }
             }
             
             function updateSunriseSunsetDisplay(sunrise, sunset) {
@@ -1150,7 +1389,6 @@
                     return { latitude: position.coords.latitude, longitude: position.coords.longitude };
                 }
                 if (source === 'ip') {
-                    // FIX: Use HTTPS endpoint for GitHub Pages compatibility
                     const response = await fetch('https://ipapi.co/json/');
                     if (!response.ok) throw new Error('IP API request failed');
                     const data = await response.json();
@@ -1165,25 +1403,14 @@
                     if (source === 'basic') {
                         const nowHour = new Date().getHours();
                         isDarkMode = nowHour < 6 || nowHour >= 18;
-                        
-                        // Create fixed times for sunrise (6:00 AM) and sunset (6:00 PM)
-                        const now = new Date();
-                        const sunrise = new Date(now);
-                        sunrise.setHours(6, 0, 0, 0);
-                        const sunset = new Date(now);
-                        sunset.setHours(18, 0, 0, 0);
-                        
+                        const now = new Date(); const sunrise = new Date(now); sunrise.setHours(6, 0, 0, 0); const sunset = new Date(now); sunset.setHours(18, 0, 0, 0);
                         updateSunriseSunsetDisplay(sunrise, sunset);
                     } else {
                         const { latitude, longitude } = await getCoords(source);
                         const response = await fetch(`https://api.sunrise-sunset.org/json?lat=${latitude}&lng=${longitude}&formatted=0`);
                         const data = await response.json();
                         if (data.status !== 'OK') throw new Error('Sunrise/Sunset API Error');
-                        
-                        const sunrise = new Date(data.results.sunrise);
-                        const sunset = new Date(data.results.sunset);
-                        const now = new Date();
-                        
+                        const sunrise = new Date(data.results.sunrise); const sunset = new Date(data.results.sunset); const now = new Date();
                         isDarkMode = now < sunrise || now > sunset;
                         updateSunriseSunsetDisplay(sunrise, sunset);
                     }
@@ -1193,7 +1420,6 @@
                     isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
                     updateSunriseSunsetDisplay(null, null);
                 }
-                
                 const themeChanged = document.body.classList.contains('dark-mode') !== isDarkMode;
                 document.body.className = isDarkMode ? 'dark-mode' : '';
                 if (themeChanged) fetchRedditBackground();
@@ -1201,148 +1427,275 @@
 
             function updateDarkModeIcon() {
                 const currentMode = themeMode.value;
-                if (currentMode === 'dark') {
-                    darkModeBtn.innerHTML = '<i class="fas fa-moon"></i>';
-                } else if (currentMode === 'light') {
-                    darkModeBtn.innerHTML = '<i class="fas fa-sun"></i>';
-                } else {
-                    // Changed to show "A" for auto mode
-                    darkModeBtn.innerHTML = '<span class="auto-mode-icon">A</span>';
-                }
+                if (currentMode === 'dark') { darkModeBtn.innerHTML = '<i class="fas fa-moon"></i>'; } else if (currentMode === 'light') { darkModeBtn.innerHTML = '<i class="fas fa-sun"></i>'; } else { darkModeBtn.innerHTML = '<span class="auto-mode-icon">A</span>'; }
             }
 
             function setThemeMode() {
                 updateDarkModeIcon();
-                if (themeMode.value === 'auto') {
-                    updateAutoTheme();
-                } else {
-                    const newIsDarkMode = themeMode.value === 'dark';
-                    const themeChanged = isDarkMode !== newIsDarkMode;
-                    isDarkMode = newIsDarkMode;
-                    document.body.className = isDarkMode ? 'dark-mode' : '';
-                    if (themeChanged) fetchRedditBackground();
-                }
+                if (themeMode.value === 'auto') { updateAutoTheme(); } else { const newIsDarkMode = themeMode.value === 'dark'; const themeChanged = isDarkMode !== newIsDarkMode; isDarkMode = newIsDarkMode; document.body.className = isDarkMode ? 'dark-mode' : ''; if (themeChanged) fetchRedditBackground(); }
             }
 
             function applyBlurEffect() { backgroundEl.style.filter = `blur(${blurIntensity.value}px) brightness(0.8)`; }
-            function updateSubtitleContent() { let content; const type = subtitleContent.value; const lang = languageDisplay.value; subtitleEl.innerHTML = ''; if (type === 'random') content = Math.random() > 0.5 ? quranVerses[Math.floor(Math.random() * quranVerses.length)] : hadiths[Math.floor(Math.random() * hadiths.length)]; else if (type === 'quran') content = quranVerses[Math.floor(Math.random() * quranVerses.length)]; else if (type === 'hadith') content = hadiths[Math.floor(Math.random() * hadiths.length)]; else { subtitleEl.textContent = lang === 'arabic' ? "ساعة الطبيعة مع خلفيات من جمال الأرض" : "Relaxing backgrounds from Earth's beauty"; return; } displayContent(content, lang); }
-            function displayContent(content, lang) { const container = document.createElement('div'); container.style.textAlign = 'center'; if (lang === 'arabic' || lang === 'both') { const arabicEl = document.createElement('div'); arabicEl.className = 'arabic-text'; arabicEl.innerHTML = `${content.ar} <a class="content-ref" href="${content.link}" target="_blank">${content.ref}</a>`; container.appendChild(arabicEl); } if (lang === 'english' || lang === 'both') { const englishEl = document.createElement('div'); englishEl.innerHTML = `${content.en} <a class="content-ref" href="${content.link}" target="_blank">${content.ref}</a>`; container.appendChild(englishEl); } subtitleEl.appendChild(container); }
+            
+            async function updateSubtitleContent() {
+                const type = subtitleContent.value;
+                const lang = languageDisplay.value;
+                subtitleEl.innerHTML = '<span class="spinner"></span>';
+                try {
+                    let content;
+                    if (type === 'quran' || (type === 'random' && Math.random() > 0.5)) {
+                        let attempts = 0;
+                        while (attempts < 5) {
+                            const randomVerse = Math.floor(Math.random() * 6236) + 1;
+                            const response = await fetch(`https://api.alquran.cloud/v1/ayah/${randomVerse}/editions/quran-uthmani,en.sahih`);
+                            const data = await response.json();
+                            const arabicText = data.data[0].text;
+                            const wordCount = arabicText.trim().split(/\s+/).length;
+                            if (wordCount < 20) {
+                                content = { ar: arabicText, en: data.data[1].text, ref: `${data.data[0].surah.number}:${data.data[0].numberInSurah}`, link: `https://quran.com/${data.data[0].surah.number}/${data.data[0].numberInSurah}`, arSurah: data.data[0].surah.name, enSurah: data.data[0].surah.englishName };
+                                break;
+                            }
+                            attempts++;
+                        }
+                        if (!content) { content = quranVerses[Math.floor(Math.random() * quranVerses.length)]; }
+                    } else if (type === 'hadith' || type === 'random') {
+                        content = hadiths[Math.floor(Math.random() * hadiths.length)];
+                    }
+                    if (!content) { subtitleEl.textContent = "Relaxing backgrounds from Earth's beauty"; return; }
+                    displayContent(content, lang);
+                } catch (error) {
+                    console.error("Failed to fetch new content:", error);
+                    subtitleEl.textContent = "Could not load content. Please try again later.";
+                }
+            }
+
+            function displayContent(content, lang) {
+                subtitleEl.innerHTML = ''; 
+                const container = document.createElement('div'); 
+                container.style.textAlign = 'center';
+                
+                if (lang === 'arabic' || lang === 'both') {
+                    const arabicEl = document.createElement('div'); 
+                    arabicEl.className = 'arabic-text';
+                    if (content.enSurah) { 
+                        // Quranic verse - remove symbol before display
+                        const verseNum = content.ref.split(':')[1];
+                        const cleanArabic = content.ar.replace(/۞/g, '');
+                        arabicEl.innerHTML = `${cleanArabic} <a class="content-ref" href="${content.link}" target="_blank">${content.arSurah} ${verseNum}</a>`;
+                    } else { 
+                        // Hadith - use Arabic reference
+                        arabicEl.innerHTML = `${content.ar} <a class="content-ref" href="${content.link}" target="_blank">${content.arRef}</a>`;
+                    }
+                    container.appendChild(arabicEl);
+                }
+                
+                if (lang === 'english' || lang === 'both') {
+                    const englishEl = document.createElement('div');
+                    if (content.enSurah) { 
+                        const verseNum = content.ref.split(':')[1];
+                        englishEl.innerHTML = `${content.en} <a class="content-ref" href="${content.link}" target="_blank">${content.enSurah} ${verseNum}</a>`;
+                    } else { 
+                        // Hadith - use English reference
+                        englishEl.innerHTML = `${content.en} <a class="content-ref" href="${content.link}" target="_blank">${content.enRef}</a>`;
+                    }
+                    container.appendChild(englishEl);
+                }
+                
+                subtitleEl.appendChild(container);
+            }
+
             function updateSubredditLists() { lightSubredditList.innerHTML = ''; darkSubredditList.innerHTML = ''; lightSubreddits.forEach(sub => createSubredditItem(sub, lightSubredditList, lightSubreddits)); darkSubreddits.forEach(sub => createSubredditItem(sub, darkSubredditList, darkSubreddits)); }
             function createSubredditItem(subreddit, listElement, subredditArray) { const item = document.createElement('div'); item.className = 'subreddit-item'; item.innerHTML = `<span class="subreddit-name">${subreddit}</span><button class="remove-subreddit">×</button>`; item.querySelector('.remove-subreddit').addEventListener('click', () => { const index = subredditArray.indexOf(subreddit); if (index > -1) subredditArray.splice(index, 1); updateSubredditLists(); }); listElement.appendChild(item); }
             function toggleCustomBgInterval() { customBgIntervalContainer.style.display = bgInterval.value === 'custom' ? 'flex' : 'none'; }
             function toggleCustomChime() { customChimeContainer.style.display = chimeSound.value === 'custom' ? 'block' : 'none'; }
             function toggleCustomAlarm() { customAlarmContainer.style.display = alarmSound.value === 'custom' ? 'block' : 'none'; }
             function stopActiveSound() { if (activeSound) { activeSound.pause(); activeSound.currentTime = 0; activeSound = null; } }
+            
             function updateClock() {
                 const now = new Date();
-                let hours = now.getHours();
-                const minutes = String(now.getMinutes()).padStart(2, '0');
-                const seconds = String(now.getSeconds()).padStart(2, '0');
-                let ampm = '';
-
-                if (timeFormat.value === '12h') {
-                    ampm = hours >= 12 ? ' PM' : ' AM';
-                    hours = hours % 12 || 12;
-                }
+                let hours = now.getHours(); const minutes = String(now.getMinutes()).padStart(2, '0'); const seconds = String(now.getSeconds()).padStart(2, '0'); let ampm = '';
+                if (timeFormat.value === '12h') { ampm = hours >= 12 ? ' PM' : ' AM'; hours = hours % 12 || 12; }
                 hours = String(hours).padStart(2, '0');
                 clockEl.textContent = showSeconds.checked ? `${hours}:${minutes}:${seconds}${ampm}` : `${hours}:${minutes}${ampm}`;
-
                 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                 dateEl.textContent = now.toLocaleDateString('en-US', options);
-
-                if (showIslamicDate.checked && islamicDateEl) {
-                    islamicDateEl.textContent = getIslamicDate(now);
-                    islamicDateEl.style.display = 'block';
-                } else if(islamicDateEl) {
-                    islamicDateEl.style.display = 'none';
-                }
-
-                if (now.getMinutes() === 0 && now.getSeconds() === 0 && now.getHours() !== lastChimeHour) {
-                    playChime();
-                    lastChimeHour = now.getHours();
-                }
+                if (showIslamicDate.checked && islamicDateEl) { islamicDateEl.textContent = getIslamicDate(now); islamicDateEl.style.display = 'block'; } else if(islamicDateEl) { islamicDateEl.style.display = 'none'; }
+                if (now.getMinutes() % chimeInterval === 0 && now.getSeconds() === 0) { playChime(); }
             }
+            
             function playSound(type, soundProfile) { if (isMuted) return; stopActiveSound(); const customSound = type === 'chime' ? customChimeSound : customAlarmSound; const soundValue = type === 'chime' ? chimeSound.value : alarmSound.value; if (soundValue === 'custom' && customSound) { activeSound = customSound.cloneNode(); activeSound.play(); return; } const AudioContext = window.AudioContext || window.webkitAudioContext; const audioCtx = new AudioContext(); const oscillator = audioCtx.createOscillator(); const gainNode = audioCtx.createGain(); oscillator.connect(gainNode); gainNode.connect(audioCtx.destination); const profile = soundProfile[soundValue]; if (!profile) return; oscillator.type = profile.type; oscillator.frequency.setValueAtTime(profile.freq, audioCtx.currentTime); if (profile.freqEnd) oscillator.frequency.linearRampToValueAtTime(profile.freqEnd, audioCtx.currentTime + profile.rampTime); gainNode.gain.setValueAtTime(profile.gain, audioCtx.currentTime); gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + profile.duration); oscillator.start(); oscillator.stop(audioCtx.currentTime + profile.duration); }
             const chimeSounds = { 'chime1': { type: 'sine', freq: 880, gain: 0.2, duration: 1 }, 'chime2': { type: 'triangle', freq: 1046.50, gain: 0.3, duration: 1.5 }, 'chime3': { type: 'sine', freq: 1500, freqEnd: 2500, rampTime: 0.2, gain: 0.2, duration: 0.5 }, 'chime4': { type: 'sawtooth', freq: 120, gain: 0.1, duration: 2 }, 'chime5': { type: 'triangle', freq: 3000, gain: 0.15, duration: 0.3 } };
             const alarmSounds = { 'alarm1': { type: 'square', freq: 1000, gain: 0.2, duration: 1 }, 'alarm2': { type: 'sine', freq: 440, freqEnd: 880, rampTime: 0.5, gain: 0.25, duration: 1.5 }, 'alarm3': { type: 'sine', freq: 2000, freqEnd: 3000, rampTime: 0.3, gain: 0.2, duration: 0.5 }, 'alarm4': { type: 'sawtooth', freq: 300, gain: 0.1, duration: 2 }, 'alarm5': { type: 'triangle', freq: 100, gain: 0.15, duration: 2 } };
             
-            // Fixed chime notification to respect "Show Loading Text" setting
-            function playChime() {
-                if (showLoading.checked) {
-                    const now = new Date();
-                    const hours = now.getHours();
-                    const minutes = now.getMinutes(); // This will be 0 at the hour
-                    showToast(`It's ${hours}:${String(minutes).padStart(2, '0')}! Chime playing...`);
-                }
-                playSound('chime', chimeSounds);
-            }
-
+            function playChime() { if (showLoading.checked) { const now = new Date(); const hours = now.getHours(); const minutes = now.getMinutes(); showToast(`It's ${hours}:${String(minutes).padStart(2, '0')}! Chime playing...`); } playSound('chime', chimeSounds); }
             function playCompletionSound() { playSound('alarm', alarmSounds); }
             function testChime() { playChime(); }
             function testAlarm() { playCompletionSound(); }
             function toggleMute() { isMuted = !isMuted; muteBtn.innerHTML = isMuted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>'; showToast(isMuted ? 'Sound muted' : 'Sound enabled'); }
-            function startTimer() { if (timerRemaining <= 0 || timerActive) return; timerActive = true; startBtn.innerHTML = '<i class="fas fa-play"></i>'; timerInterval = setInterval(() => { timerRemaining--; if (timerRemaining <= 0) { clearInterval(timerInterval); timerActive = false; showToast("Timer completed!"); if (!isMuted) playCompletionSound(); timerDisplay.textContent = "00:00"; return; } updateTimerDisplay(); }, 1000); }
-            function pauseTimer() { if (!timerActive) return; clearInterval(timerInterval); timerActive = false; startBtn.innerHTML = '<i class="fas fa-play"></i>'; showToast("Timer paused"); }
-            function resetTimer() { pauseTimer(); timerRemaining = timerDuration; updateTimerDisplay(); startBtn.innerHTML = '<i class="fas fa-play"></i>'; showToast("Timer reset"); }
             
-            // Fixed timer display NaN issue
+            function startTimer() { if (timerRemaining <= 0 || timerActive) return; timerActive = true; toggleTimerBtn.innerHTML = '<i class="fas fa-pause"></i>'; timerInterval = setInterval(() => { timerRemaining--; if (timerRemaining <= 0) { clearInterval(timerInterval); timerActive = false; showToast("Timer completed!"); if (!isMuted) playCompletionSound(); timerDisplay.textContent = "00:00"; toggleTimerBtn.innerHTML = '<i class="fas fa-play"></i>'; return; } updateTimerDisplay(); }, 1000); }
+            function pauseTimer() { if (!timerActive) return; clearInterval(timerInterval); timerActive = false; toggleTimerBtn.innerHTML = '<i class="fas fa-play"></i>'; showToast("Timer paused"); }
+            function resetTimer() { pauseTimer(); timerRemaining = timerDuration; updateTimerDisplay(); toggleTimerBtn.innerHTML = '<i class="fas fa-play"></i>'; showToast("Timer reset"); }
+            
             function updateTimerDisplay() {
-                if (isNaN(timerRemaining)) {
-                    timerRemaining = 0;
+                if (isNaN(timerRemaining)) timerRemaining = 0;
+                const totalMinutes = Math.floor(timerDuration / 60);
+                if (timerActive) {
+                    const hours = Math.floor(timerRemaining / 3600);
+                    const minutes = Math.floor((timerRemaining % 3600) / 60);
+                    const seconds = timerRemaining % 60;
+                    if (hours > 0) { timerDisplay.textContent = `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`; } 
+                    else { timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`; }
+                } else {
+                    if (totalMinutes >= 60) {
+                        const hours = Math.floor(totalMinutes / 60);
+                        const minutes = totalMinutes % 60;
+                        timerDisplay.textContent = `${hours}H ${String(minutes).padStart(2, '0')}M`;
+                    } else {
+                        timerDisplay.textContent = `${String(totalMinutes).padStart(2, '0')}:00`;
+                    }
                 }
-                const minutes = Math.floor(timerRemaining / 60);
-                const seconds = timerRemaining % 60;
-                timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
             }
 
-            // MODIFIED: Added 'notify' parameter to prevent toast on initial load
             function setTimer(minutes, isAutoStart = false, notify = true) {
-                // Ensure minutes is a valid number
-                minutes = parseInt(minutes);
-                if (isNaN(minutes)) {
-                    minutes = 5; // Default to 5 minutes if invalid
+                minutes = parseInt(minutes); if (isNaN(minutes)) { minutes = 5; }
+                timerDuration = minutes * 60; timerRemaining = timerDuration; updateTimerDisplay(); toggleTimerBtn.innerHTML = '<i class="fas fa-play"></i>';
+                if (notify) { showToast(`Timer set to ${minutes} minutes`); }
+                if (isAutoStart && autoStartTimer.checked) { startTimer(); }
+            }
+
+            function setCustomTimer() {
+                const minutes = parseInt(customMinutesInput.value);
+                if (minutes && minutes > 0) {
+                    setTimer(minutes, true);
+                    customTimerContainer.classList.remove('expanded');
+                    customMinutesInput.value = '';
                 }
-                timerDuration = minutes * 60;
-                timerRemaining = timerDuration;
-                updateTimerDisplay();
-                startBtn.innerHTML = '<i class="fas fa-play"></i>';
+            }
+            
+            // Stopwatch Functions
+            function toggleStopwatch() {
+                if (currentMode === 'timer') {
+                    // Switch to stopwatch mode
+                    currentMode = 'stopwatch';
+                    timerDisplay.style.display = 'none';
+                    stopwatchDisplay.style.display = 'block';
+                    
+                    // Update the play/pause button to reflect the stopwatch's current state
+                    toggleTimerBtn.innerHTML = stopwatchRunning ? 
+                        '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>';
+                } else {
+                    // Switch to timer mode
+                    currentMode = 'timer';
+                    timerDisplay.style.display = 'block';
+                    stopwatchDisplay.style.display = 'none';
+                    
+                    // Update the play/pause button to reflect the timer's current state
+                    toggleTimerBtn.innerHTML = timerActive ? 
+                        '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>';
+                }
                 
-                if (notify) {
-                    showToast(`Timer set to ${minutes} minutes`);
+                // Update the active state highlight on the stopwatch/timer toggle button
+                stopwatchControlBtn.classList.toggle('active', currentMode === 'stopwatch');
+            }
+
+
+            function startStopwatch() { if (!stopwatchRunning) { stopwatchStartTime = Date.now() - stopwatchElapsed; stopwatchInterval = setInterval(updateStopwatchDisplay, 10); stopwatchRunning = true; toggleTimerBtn.innerHTML = '<i class="fas fa-pause"></i>'; } }
+            function pauseStopwatch() { if (stopwatchRunning) { clearInterval(stopwatchInterval); stopwatchElapsed = Date.now() - stopwatchStartTime; stopwatchRunning = false; toggleTimerBtn.innerHTML = '<i class="fas fa-play"></i>'; } }
+            function resetStopwatch() { pauseStopwatch(); stopwatchElapsed = 0; updateStopwatchDisplay(); }
+            
+            function updateStopwatchDisplay() {
+                const elapsed = stopwatchRunning ? Date.now() - stopwatchStartTime : stopwatchElapsed;
+                const hours = Math.floor(elapsed / 3600000);
+                const minutes = Math.floor((elapsed % 3600000) / 60000);
+                const seconds = Math.floor((elapsed % 60000) / 1000);
+                
+                let displayHTML = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+                if (showMilliseconds.checked) {
+                    const milliseconds = Math.floor((elapsed % 1000) / 10);
+                    displayHTML += `<span class="milliseconds">${String(milliseconds).padStart(2, '0')}</span>`;
                 }
 
-                if (isAutoStart && autoStartTimer.checked) {
-                    startTimer();
-                }
+                stopwatchDisplay.innerHTML = displayHTML;
             }
 
             function showToast(message) { toast.textContent = message; toast.classList.add('show'); setTimeout(() => { toast.classList.remove('show'); }, 3000); }
             function preloadBackground(url, callback) { const img = new Image(); img.onload = () => callback(url); img.onerror = () => { console.error('Error preloading image:', url); callback('https://images.unsplash.com/photo-1506744038136-46273834b3fb'); }; img.src = url; }
-            async function fetchRedditBackground() { try { const subreddits = isDarkMode ? darkSubreddits : lightSubreddits; if (showLoading.checked) timerDisplay.innerHTML = '<span class="spinner"></span> Loading image...'; const randomSubreddit = subreddits[Math.floor(Math.random() * subreddits.length)]; const response = await fetch(`https://www.reddit.com/r/${randomSubreddit}/top.json?limit=20&t=day`); const data = await response.json(); const postsWithImages = data.data.children.filter(p => p.data.post_hint === 'image' && p.data.url.match(/\.(jpeg|jpg|png)$/)); if (postsWithImages.length === 0) throw new Error('No images found'); const randomPost = postsWithImages[Math.floor(Math.random() * postsWithImages.length)]; preloadBackground(randomPost.data.url, url => { backgroundEl.style.opacity = 0; setTimeout(() => { backgroundEl.style.backgroundImage = `url('${url}')`; backgroundEl.className = 'background'; void backgroundEl.offsetWidth; backgroundEl.classList.add(`transition-${imageTransition.value}`); backgroundEl.style.opacity = 1; }, 500); if (timerRemaining > 0) updateTimerDisplay(); else timerDisplay.textContent = "Set a timer"; if (showLoading.checked) showToast(`New background from r/${randomSubreddit}`); }); } catch (error) { console.error('Error fetching from Reddit:', error); backgroundEl.style.backgroundImage = "url('https://images.unsplash.com/photo-1506744038136-46273834b3fb')"; if (showLoading.checked) showToast("Using default image"); if (timerRemaining > 0) updateTimerDisplay(); else timerDisplay.textContent = "Set a timer"; } }
-            function backupSettings() { const settings = { themeMode: themeMode.value, autoLocationMode: autoLocationMode.value, showSeconds: showSeconds.checked, showIslamicDate: showIslamicDate.checked, showLoading: showLoading.checked, showSources: showSources.checked, timeFormat: timeFormat.value, autoHideControls: autoHideControls.checked, layoutMode: layoutMode.value, lightGlassIntensity: lightGlassIntensity.value, darkGlassIntensity: darkGlassIntensity.value, blurIntensity: blurIntensity.value, subtitleContent: subtitleContent.value, languageDisplay: languageDisplay.value, contentInterval: contentInterval.value, bgInterval: bgInterval.value, customBgInterval: customBgInterval.value, imageTransition: imageTransition.value, autoStartTimer: autoStartTimer.checked, chimeSound: chimeSound.value, alarmSound: alarmSound.value, lightSubreddits, darkSubreddits }; const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(settings, null, 2)); const downloadAnchorNode = document.createElement('a'); downloadAnchorNode.setAttribute("href", dataStr); downloadAnchorNode.setAttribute("download", "nature-clock-settings.json"); document.body.appendChild(downloadAnchorNode); downloadAnchorNode.click(); downloadAnchorNode.remove(); showToast("Settings backup downloaded!"); }
+            async function fetchRedditBackground() { try { const subreddits = isDarkMode ? darkSubreddits : lightSubreddits; if (showLoading.checked) timerDisplay.innerHTML = '<span class="spinner"></span> Loading image...'; const randomSubreddit = subreddits[Math.floor(Math.random() * subreddits.length)]; const response = await fetch(`https://www.reddit.com/r/${randomSubreddit}/top.json?limit=20&t=day`); const data = await response.json(); const postsWithImages = data.data.children.filter(p => p.data.post_hint === 'image' && p.data.url.match(/\.(jpeg|jpg|png)$/)); if (postsWithImages.length === 0) throw new Error('No images found'); const randomPost = postsWithImages[Math.floor(Math.random() * postsWithImages.length)]; preloadBackground(randomPost.data.url, url => { backgroundEl.style.opacity = 0; setTimeout(() => { backgroundEl.style.backgroundImage = `url('${url}')`; backgroundEl.className = 'background'; void backgroundEl.offsetWidth; backgroundEl.classList.add(`transition-${imageTransition.value}`); backgroundEl.style.opacity = 1; }, 500); if (currentMode === 'timer' && timerRemaining <= 0) timerDisplay.textContent = "Set a timer"; else if (currentMode === 'timer') updateTimerDisplay(); if (showLoading.checked) showToast(`New background from r/${randomSubreddit}`); }); } catch (error) { console.error('Error fetching from Reddit:', error); backgroundEl.style.backgroundImage = "url('https://images.unsplash.com/photo-1506744038136-46273834b3fb')"; if (showLoading.checked) showToast("Using default image"); if (currentMode === 'timer' && timerRemaining <= 0) timerDisplay.textContent = "Set a timer"; else if (currentMode === 'timer') updateTimerDisplay(); } }
+            function backupSettings() { const settings = { themeMode: themeMode.value, autoLocationMode: autoLocationMode.value, showSeconds: showSeconds.checked, showMilliseconds: showMilliseconds.checked, showIslamicDate: showIslamicDate.checked, showLoading: showLoading.checked, showSources: showSources.checked, timeFormat: timeFormat.value, autoHideControls: autoHideControls.checked, layoutMode: layoutMode.value, lightGlassIntensity: lightGlassIntensity.value, darkGlassIntensity: darkGlassIntensity.value, blurIntensity: blurIntensity.value, subtitleContent: subtitleContent.value, languageDisplay: languageDisplay.value, contentInterval: contentInterval.value, bgInterval: bgInterval.value, customBgInterval: customBgInterval.value, imageTransition: imageTransition.value, autoStartTimer: autoStartTimer.checked, chimeSound: chimeSound.value, alarmSound: alarmSound.value, lightSubreddits, darkSubreddits, chimeInterval, chimeIntervalSetting: chimeIntervalSetting.value }; const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(settings, null, 2)); const downloadAnchorNode = document.createElement('a'); downloadAnchorNode.setAttribute("href", dataStr); downloadAnchorNode.setAttribute("download", "nature-clock-settings.json"); document.body.appendChild(downloadAnchorNode); downloadAnchorNode.click(); downloadAnchorNode.remove(); showToast("Settings backup downloaded!"); }
             function restoreSettings() { restoreFile.click(); }
             function resetAllSettings() { if (confirm("Are you sure you want to reset all settings to default?")) { localStorage.clear(); location.reload(); } }
             function resetMouseIdleTimer() { clearTimeout(mouseIdleTimer); if (autoHideControls.checked) { topControls.style.opacity = '1'; timerControls.style.opacity = '1'; mouseIdleTimer = setTimeout(() => { topControls.style.opacity = '0'; timerControls.style.opacity = '0'; isMouseIdle = true; }, 5000); } }
             function setupSliderSnapping() { const sliders = { lightGlassIntensity: { points: [0.1, 0.25, 0.35, 0.5], tolerance: 0.04 }, darkGlassIntensity: { points: [0.1, 0.25, 0.35, 0.5], tolerance: 0.04 }, blurIntensity: { points: [5, 12, 20, 30], tolerance: 2 } }; for (const id in sliders) { const slider = document.getElementById(id); if (slider) { const { points, tolerance } = sliders[id]; const snapFunction = () => { const currentValue = parseFloat(slider.value); for (const point of points) { if (Math.abs(currentValue - point) < tolerance) { if (slider.value !== String(point)) { slider.value = point; } return; } } }; slider.addEventListener('input', snapFunction); } } }
             
-            // Update layout on resize
-            function handleResize() {
-                if (layoutMode.value === 'auto') {
-                    applyLayoutMode();
-                }
-            }
+            function handleResize() { if (layoutMode.value === 'auto') { applyLayoutMode(); } }
 
             function addEventListeners() { 
                 muteBtn.addEventListener('click', toggleMute); 
-                darkModeBtn.addEventListener('click', () => {
-                    const currentMode = themeMode.value;
-                    if (currentMode === 'dark') themeMode.value = 'light';
-                    else if (currentMode === 'light') themeMode.value = 'auto';
-                    else themeMode.value = 'dark';
-                    setThemeMode();
-                    saveSettingsToStorage();
+                darkModeBtn.addEventListener('click', () => { const currentMode = themeMode.value; if (currentMode === 'dark') themeMode.value = 'light'; else if (currentMode === 'light') themeMode.value = 'auto'; else themeMode.value = 'dark'; setThemeMode(); saveSettingsToStorage(); });
+                
+                // Combined play/pause button
+                toggleTimerBtn.addEventListener('click', () => {
+                    if (currentMode === 'timer') {
+                        if (timerActive) pauseTimer(); else startTimer();
+                    } else {
+                        if (stopwatchRunning) pauseStopwatch(); else startStopwatch();
+                    }
                 });
-                startBtn.addEventListener('click', startTimer); pauseBtn.addEventListener('click', pauseTimer); resetBtn.addEventListener('click', resetTimer); timerButtons.forEach(button => { button.addEventListener('click', () => { setTimer(button.getAttribute('data-minutes'), true); }); }); settingsBtn.addEventListener('click', () => settingsModal.classList.add('active')); closeSettings.addEventListener('click', () => { stopActiveSound(); settingsModal.classList.remove('active'); }); saveSettings.addEventListener('click', () => { stopActiveSound(); saveSettingsToStorage(); applyLayoutMode(); setThemeMode(); applyBlurEffect(); footerEl.style.display = showSources.checked ? 'block' : 'none'; updateSubtitleContent(); setupContentUpdate(); setupBackgroundUpdate(); settingsModal.classList.remove('active'); }); testChimeBtn.addEventListener('click', testChime); testAlarmBtn.addEventListener('click', testAlarm); customChime.addEventListener('change', e => { if (e.target.files[0]) customChimeSound = new Audio(URL.createObjectURL(e.target.files[0])); }); customAlarm.addEventListener('change', e => { if (e.target.files[0]) customAlarmSound = new Audio(URL.createObjectURL(e.target.files[0])); }); backupBtn.addEventListener('click', backupSettings); restoreBtn.addEventListener('click', restoreSettings); resetSettingsBtn.addEventListener('click', resetAllSettings); restoreFile.addEventListener('change', e => { if (e.target.files[0]) { const reader = new FileReader(); reader.onload = e => { try { const s = JSON.parse(e.target.result); Object.keys(s).forEach(key => { if (key === 'lightSubreddits' || key === 'darkSubreddits') window[key] = s[key]; else if (document.getElementById(key)) { if(document.getElementById(key).type === 'checkbox') document.getElementById(key).checked = s[key]; else document.getElementById(key).value = s[key]; }}); toggleCustomChime(); toggleCustomAlarm(); updateSubredditLists(); toggleCustomBgInterval(); showToast("Settings restored!"); } catch (error) { showToast("Invalid settings file."); console.error(error); } }; reader.readAsText(e.target.files[0]); } }); addLightSubreddit.addEventListener('click', () => { const sub = newLightSubreddit.value.trim(); if (sub && !lightSubreddits.includes(sub)) { lightSubreddits.push(sub); updateSubredditLists(); newLightSubreddit.value = ''; } }); addDarkSubreddit.addEventListener('click', () => { const sub = newDarkSubreddit.value.trim(); if (sub && !darkSubreddits.includes(sub)) { darkSubreddits.push(sub); updateSubredditLists(); newDarkSubreddit.value = ''; } }); chimeSound.addEventListener('change', toggleCustomChime); alarmSound.addEventListener('change', toggleCustomAlarm); bgInterval.addEventListener('change', toggleCustomBgInterval); document.addEventListener('mousemove', () => { if (isMouseIdle) { topControls.style.opacity = '1'; timerControls.style.opacity = '1'; isMouseIdle = false; } resetMouseIdleTimer(); }); window.addEventListener('resize', () => { if (layoutMode.value === 'auto') applyLayoutMode(); }); 
+
+                // Reset button
+                resetBtn.addEventListener('click', () => {
+                    if (currentMode === 'timer') resetTimer(); else resetStopwatch();
+                });
+                
+                timerButtons.forEach(button => { button.addEventListener('click', () => { setTimer(button.getAttribute('data-minutes'), true); }); });
+                
+                // Custom Timer Input Listeners
+                customTimerContainer.addEventListener('click', function(e) { if (!this.classList.contains('expanded')) { this.classList.add('expanded'); setTimeout(() => customMinutesInput.focus(), 300); e.stopPropagation(); } });
+                
+                // UPDATED: JavaScript Collapse Handler
+                document.addEventListener('click', function(e) {
+                    const customTimer = document.getElementById('customTimerContainer');
+                    if (customTimer.classList.contains('expanded') && 
+                        !customTimer.contains(e.target) && 
+                        e.target !== customTimer) {
+                        customTimer.classList.remove('expanded');
+                    }
+                });
+
+                customMinutesInput.addEventListener('keypress', function(e) { if (e.key === 'Enter') { setCustomTimer(); } });
+                
+                // Stopwatch Toggle Listener
+                stopwatchControlBtn.addEventListener('click', toggleStopwatch);
+
+                settingsBtn.addEventListener('click', () => settingsModal.classList.add('active')); 
+                closeSettings.addEventListener('click', () => { stopActiveSound(); settingsModal.classList.remove('active'); }); 
+                saveSettings.addEventListener('click', () => { stopActiveSound(); saveSettingsToStorage(); applyLayoutMode(); setThemeMode(); applyBlurEffect(); footerEl.style.display = showSources.checked ? 'block' : 'none'; updateSubtitleContent(); setupContentUpdate(); setupBackgroundUpdate(); settingsModal.classList.remove('active'); }); 
+                testChimeBtn.addEventListener('click', testChime); testAlarmBtn.addEventListener('click', testAlarm); 
+                customChime.addEventListener('change', e => { if (e.target.files[0]) customChimeSound = new Audio(URL.createObjectURL(e.target.files[0])); }); 
+                customAlarm.addEventListener('change', e => { if (e.target.files[0]) customAlarmSound = new Audio(URL.createObjectURL(e.target.files[0])); }); 
+                backupBtn.addEventListener('click', backupSettings); restoreBtn.addEventListener('click', restoreSettings); resetSettingsBtn.addEventListener('click', resetAllSettings); 
+                restoreFile.addEventListener('change', e => { if (e.target.files[0]) { const reader = new FileReader(); reader.onload = e => { try { const s = JSON.parse(e.target.result); Object.keys(s).forEach(key => { if (key === 'lightSubreddits' || key === 'darkSubreddits') window[key] = s[key]; else if (document.getElementById(key)) { if(document.getElementById(key).type === 'checkbox') document.getElementById(key).checked = s[key]; else document.getElementById(key).value = s[key]; }}); toggleCustomChime(); toggleCustomAlarm(); updateSubredditLists(); toggleCustomBgInterval(); showToast("Settings restored!"); } catch (error) { showToast("Invalid settings file."); console.error(error); } }; reader.readAsText(e.target.files[0]); } }); 
+                addLightSubreddit.addEventListener('click', () => { const sub = newLightSubreddit.value.trim(); if (sub && !lightSubreddits.includes(sub)) { lightSubreddits.push(sub); updateSubredditLists(); newLightSubreddit.value = ''; } }); 
+                addDarkSubreddit.addEventListener('click', () => { const sub = newDarkSubreddit.value.trim(); if (sub && !darkSubreddits.includes(sub)) { darkSubreddits.push(sub); updateSubredditLists(); newDarkSubreddit.value = ''; } }); 
+                chimeSound.addEventListener('change', toggleCustomChime); alarmSound.addEventListener('change', toggleCustomAlarm); bgInterval.addEventListener('change', toggleCustomBgInterval); 
+                document.addEventListener('mousemove', () => { if (isMouseIdle) { topControls.style.opacity = '1'; timerControls.style.opacity = '1'; isMouseIdle = false; } resetMouseIdleTimer(); }); 
+                window.addEventListener('resize', () => { if (layoutMode.value === 'auto') applyLayoutMode(); }); 
+                
+                // Chime interval setting listener
+                chimeIntervalSetting.addEventListener('change', function() {
+                    if (this.value === 'custom') {
+                        customChimeIntervalContainer.style.display = 'flex';
+                        chimeInterval = parseInt(customChimeInterval.value) || 45;
+                    } else {
+                        customChimeIntervalContainer.style.display = 'none';
+                        chimeInterval = parseInt(this.value);
+                    }
+                });
+                customChimeInterval.addEventListener('change', function() {
+                    chimeInterval = parseInt(this.value) || 45;
+                });
             }
             function setupBackgroundUpdate() { clearInterval(backgroundUpdateInterval); let interval = bgInterval.value === 'custom' ? parseInt(customBgInterval.value) * 1000 : parseInt(bgInterval.value) * 1000; backgroundUpdateInterval = setInterval(fetchRedditBackground, interval); }
             function setupContentUpdate() { clearInterval(contentUpdateInterval); contentUpdateInterval = setInterval(updateSubtitleContent, parseInt(contentInterval.value) * 1000); }
@@ -1355,24 +1708,13 @@
                 fetchRedditBackground(); 
                 setupBackgroundUpdate(); 
                 setupContentUpdate(); 
-                
-                // MODIFIED: Set timer on load without showing notification
                 setTimer(5, false, false); 
-                
                 resetMouseIdleTimer(); 
                 setupSliderSnapping(); 
-                
-                // Initialize layout
                 applyLayoutMode();
-                
-                // Add resize listener for auto layout
                 window.addEventListener('resize', handleResize);
-
-                setInterval(() => {
-                    if (themeMode.value === 'auto') {
-                        updateAutoTheme();
-                    }
-                }, 600000); // Check every 10 minutes
+                setInterval(() => { if (themeMode.value === 'auto') { updateAutoTheme(); } }, 600000);
+                stopwatchControlBtn.classList.remove('active');
             }
             window.addEventListener('load', init);
         })();
